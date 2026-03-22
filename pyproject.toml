@@ -15,7 +15,7 @@ build-backend = "uv_build"
 test = ["pytest>=9.0.2", "pytest-memray>=1.8.0"]
 lint = ["ruff>=0.15.7"]
 typecheck = [
-    "basedpyright>=1.38.3",
+    "basedpyright",
     "mypy[mypyc]>=1.19.1",
     "pyrefly>=0.57.1",
     "pyright>=1.1.408",
@@ -35,8 +35,12 @@ typeshed-path = "typeshed"
 [tool.ty.environment]
 typeshed = "typeshed"
 
+[tool.uv]
+default-groups = "all"
+
 [tool.uv.workspace]
-members = ["typing_extensions"]
+members = ["typing_extensions", "basedpyright"]
 
 [tool.uv.sources]
 typing-extensions = { workspace = true }
+basedpyright = { workspace = true }
