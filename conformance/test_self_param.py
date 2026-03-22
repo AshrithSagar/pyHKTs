@@ -10,17 +10,17 @@ B = TypeVar("B")
 
 class Box(Generic[T]):
     def __init__(self, value: T) -> None:
-        self.value = value
+        self.value: T = value
 
-    def map(self, fn: Callable[[T], B]) -> ParametricSelf[B]:
+    def map(self, _fn: Callable[[T], B]) -> ParametricSelf[B]:
         raise NotImplementedError
 
 
 class Bag(Generic[T]):
     def __init__(self, value: T) -> None:
-        self.value = value
+        self.value: T = value
 
-    def map(self, fn: Callable[[T], B]) -> ParametricSelf[B]:
+    def map(self, _fn: Callable[[T], B]) -> ParametricSelf[B]:
         raise NotImplementedError
 
 

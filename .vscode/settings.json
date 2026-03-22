@@ -1,3 +1,10 @@
 {
-  "basedpyright.importStrategy": "fromEnvironment"
+  "basedpyright.importStrategy": "fromEnvironment",
+
+  "basedpyright.analysis.inlayHints.callArgumentNames": false,
+  "basedpyright.analysis.inlayHints.callArgumentNamesMatching": false,
+  "basedpyright.analysis.inlayHints.functionReturnTypes": false,
+  "basedpyright.analysis.inlayHints.genericTypes": false,
+  "basedpyright.analysis.inlayHints.variableTypes": true,
+  "basedpyright.analysis.useTypingExtensions": true
 }
