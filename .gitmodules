@@ -1,3 +1,6 @@
+[submodule "cpython"]
+	path = cpython
+	url = https://github.com/AshrithSagar/cpython
 [submodule "typing_extensions"]
 	path = typing_extensions
 	url = https://github.com/AshrithSagar/typing_extensions
