@@ -24,6 +24,7 @@ typecheck = [
 
 [tool.mypy]
 custom_typeshed_dir = "typeshed"
+plugins = ["mypy_plugin/plugin.py"]
 
 [tool.pyright]
 typeshedPath = "typeshed"
