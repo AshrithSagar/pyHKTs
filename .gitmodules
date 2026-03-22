@@ -1,6 +1,12 @@
 [submodule "typing_extensions"]
 	path = typing_extensions
 	url = https://github.com/AshrithSagar/typing_extensions
+[submodule "typeshed"]
+	path = typeshed
+	url = https://github.com/AshrithSagar/typeshed
+[submodule "mypy"]
+	path = mypy
+	url = https://github.com/AshrithSagar/mypy
 [submodule "pyright"]
 	path = pyright
 	url = https://github.com/AshrithSagar/pyright
