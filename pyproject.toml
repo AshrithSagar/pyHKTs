@@ -22,6 +22,18 @@ typecheck = [
     "ty>=0.0.24",
 ]
 
+[tool.mypy]
+custom_typeshed_dir = "typeshed"
+
+[tool.pyright]
+typeshedPath = "typeshed"
+
+[tool.pyrefly]
+typeshed-path = "typeshed"
+
+[tool.ty.environment]
+typeshed = "typeshed"
+
 [tool.uv.workspace]
 members = ["typing_extensions"]
 
