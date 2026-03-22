@@ -10,3 +10,6 @@
 [submodule "pyright"]
 	path = pyright
 	url = https://github.com/AshrithSagar/pyright
+[submodule "basedpyright"]
+	path = basedpyright
+	url = https://github.com/AshrithSagar/basedpyright
