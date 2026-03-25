@@ -19,7 +19,7 @@ test = ["pytest>=9.0.2", "pytest-memray>=1.8.0"]
 lint = ["ruff>=0.15.7"]
 typecheck = [
     "basedpyright",
-    "mypy[mypyc]>=1.19.1",
+    "mypy[mypyc]",
     "pyrefly>=0.58.0",
     "pyright>=1.1.408",
     "ty>=0.0.25",
@@ -43,8 +43,9 @@ typeshed = "typeshed"
 default-groups = "all"
 
 [tool.uv.workspace]
-members = ["typing_extensions", "basedpyright"]
+members = ["typing_extensions", "mypy", "basedpyright"]
 
 [tool.uv.sources]
 typing-extensions = { workspace = true }
+mypy = { workspace = true }
 basedpyright = { workspace = true }
