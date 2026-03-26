@@ -16,3 +16,6 @@
 [submodule "basedpyright"]
 	path = basedpyright
 	url = https://github.com/AshrithSagar/basedpyright
+[submodule "peps"]
+	path = peps
+	url = https://github.com/AshrithSagar/peps
