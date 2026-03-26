@@ -1,4 +1,4 @@
-# tests/test_1.py
+# conformance/test_1.py
 
 from collections.abc import Iterable
 from typing import Callable, KindVar, TypeVar, reveal_type
