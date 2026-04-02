@@ -40,6 +40,9 @@ typeshed-path = "typeshed"
 [tool.ty.environment]
 typeshed = "typeshed"
 
+[tool.ruff]
+format.preview = true
+
 [tool.uv]
 default-groups = "all"
 
