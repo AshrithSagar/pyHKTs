@@ -72,11 +72,16 @@ B = TypeVar("B")
 
 def fmap(fn: Callable[[A], B], obj: F[A]) -> F[B]:
     reveal_type(obj)  # F[A]
-    cls = type(obj)  # type[F]. Matches runtime, rather than type[F[A]] in the current python type system. It would be better to indicate this with, say a typing special form such as TypeConstructor[F] instead.
+    cls = type(obj)  # type[F].
+    # Matches runtime, rather than type[F[A]] in the current python type system.
+    # It would be better to indicate this with, say a typing special form such as TypeConstructor[F] instead.
     reveal_type(cls)  # type[F]
 
     tmp = (fn(a) for a in obj)
-    spec_cls = cls[B]  # type[F[B]]. Go through the regular Generic specialisation through __class_getitem__, and GenericAlias at runtime. The typechecker need not be aware of the runtime implementation details, it should just follow specialising such type constructors.
+    spec_cls = cls[B]  # type[F[B]].
+    # Go through the regular Generic specialisation through __class_getitem__, and GenericAlias at runtime.
+    # The typechecker need not be aware of the runtime implementation details,
+    # it should just follow specialising such type constructors.
     reveal_type(spec_cls)  # type[F[B]]
 
     res = spec_cls(tmp)  # Should comply with __init__ of type[F[B]] (or rather type[F]) here.
@@ -110,7 +115,8 @@ class Functor(Generic[F], ABC):
         return self.map(lambda t: t[0], fab), self.map(lambda t: t[1], fab)
 
 
-# Note: Can consider allowing Functor[list] to be valid, rather than Functor[list[Any]] here, since Functor(Generic[F]) is indicating to take a type constructor rather than a type.
+# Note: Can consider allowing Functor[list] to be valid, rather than Functor[list[Any]] here,
+# since Functor(Generic[F]) is indicating to take a type constructor rather than a type.
 class ListFunctor(Functor[list[Any]]):
     def map(self, fn: Callable[[A], B], fa: list[A]) -> list[B]:
         return list(fn(a) for a in fa)
