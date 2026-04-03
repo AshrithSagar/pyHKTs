@@ -89,7 +89,7 @@ Mismatched arities should be rejected, they're already invalid.
 H3 = KindVar("H3", bound=Iterable[A, B]) # Invalid
 ```
 
-TypeVar defaults should be respected, when valid.
+`TypeVar` defaults should be respected, when valid.
 
 ```python
 H4 = KindVar("H4", bound=Box_A_TWithDefault[A])
@@ -102,7 +102,7 @@ H6 = KindVar("H6", bound=Box_TWithDefault[T]) # Fine
 ### Reusing existing `TypeVar`
 
 No `KindVar` introduced.
-TypeVar should accept an extra kwarg to denote kind.
+`TypeVar` should accept an extra kwarg to denote kind.
 Can decide on an appropriate kwarg name.
 Suggestions: {arity, args, kind, ...}.
 We shall stick to using 'arity' for now.
@@ -111,12 +111,12 @@ We shall stick to using 'arity' for now.
 F1 = TypeVar("F1", arity=1)
 ```
 
-TypeVar subscripting should be allowed in the case of a type constructor.
-Regular TypeVars (i.e., no arity) should still emit an error when subscripted.
+`TypeVar` subscripting should be allowed in the case of a type constructor.
+Regular `TypeVar`s (i.e., no arity) should still emit an error when subscripted.
 
 #### TypeVar with (explicit) arity
 
-The arity kwarg is always required when we want to use the TypeVar as a type constructor.
+The arity kwarg is always required when we want to use the `TypeVar` as a type constructor.
 
 #### TypeVar with (implicit) arity
 
@@ -172,13 +172,13 @@ Additionally, we would also need to do away with errors such as:
 - `pyright`:
   Type variable "T" has no meaning in this context
 
-TypeVar defaults should be respected hopefully, when valid.
+`TypeVar` defaults should be respected hopefully, when valid.
 
 ```python
 H3 = TypeVar("H3", bound=Box_A_TWithDefault[A])
 ```
 
-Although there might be some confusion when we're referring to a regular TypeVar vs a type constructor.
+Although there might be some confusion when we're referring to a regular `TypeVar` vs a type constructor.
 
 ```python
 H4 = TypeVar("H4", bound=Box_TWithDefault)
@@ -238,12 +238,12 @@ class Bag1[T, F[...]]: ...
 
 In the bounded cases, only inference needs to be updated.
 These cases hopefully parses already.
-The inference with PEP 695 syntax depends on how the KindVar/TypeVar above is implemented.
+The inference with PEP 695 syntax depends on how the `KindVar`/`TypeVar` above is implemented.
 
 ##### Variation-1
 
 In this variation, the arity of the bound should be inferred.
-Related to Variation-1 in KindVar with bounds.
+Related to Variation-1 in `KindVar` with bounds.
 
 ```python
 class Bag2[T, F: Iterable]: ...
@@ -261,7 +261,7 @@ There may be some possible confusions that may silently arise if this syntax is 
 ##### Variation-2
 
 This variation explicitly mentions type parameters in the bound.
-Related to Variation-2 in KindVar with bounds.
+Related to Variation-2 in `KindVar` with bounds.
 
 ```python
 class Bag2[T, F: Iterable[T]]: ...

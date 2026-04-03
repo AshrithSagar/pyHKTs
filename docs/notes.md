@@ -74,6 +74,7 @@ Typecheckers also special case this inference (E.g. `TypeType` in `mypy`).
 This proposal [recognises](https://github.com/python/typing/issues/548#issuecomment-1347406592) the `type(...)` problem.
 
 There are a few problems with this proposal.
+(Note: These problems also exist for our proposal, and we need to address them yet).
 
 1.  As also pointed out [here](https://github.com/python/typing/issues/548#issuecomment-1347557116), there are some issues as to what to do when subclasses take in more arguments when creating a new instance.
 
