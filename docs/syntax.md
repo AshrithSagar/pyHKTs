@@ -97,9 +97,7 @@ H5 = KindVar("H5", bound=Box_TWithDefault) # Invalid
 H6 = KindVar("H6", bound=Box_TWithDefault[T]) # Fine
 ```
 
-## Rejected ideas
-
-### Reusing existing `TypeVar`
+## Reusing existing `TypeVar`
 
 No `KindVar` introduced.
 `TypeVar` should accept an extra kwarg to denote kind.
@@ -114,17 +112,17 @@ F1 = TypeVar("F1", arity=1)
 `TypeVar` subscripting should be allowed in the case of a type constructor.
 Regular `TypeVar`s (i.e., no arity) should still emit an error when subscripted.
 
-#### TypeVar with (explicit) arity
+### TypeVar with (explicit) arity
 
 The arity kwarg is always required when we want to use the `TypeVar` as a type constructor.
 
-#### TypeVar with (implicit) arity
+### TypeVar with (implicit) arity
 
 The arity kwarg could be possibly optional in cases where we're able to infer it, such as when specifying with a bound.
 
 In the unbounded case, we have to mandatorily use the arity kwarg if wanting to specify a type constructor.
 
-##### TypeVar with bounds and implicit arity (Variation-1)
+#### TypeVar with bounds and implicit arity (Variation-1)
 
 In this variation, the bound type parameters need not be specified.
 The arity should be inferred by the typechecker.
@@ -148,7 +146,7 @@ G3 = TypeVar("G3", bound=Iterable[Any])
 # arity should not be inferred (or rather inferred to None). This is a regular TypeVar.
 ```
 
-##### TypeVar with bounds and implicit arity (Variation-2)
+#### TypeVar with bounds and implicit arity (Variation-2)
 
 In this variation, need to be explicit in type parameters when defining bounds.
 
