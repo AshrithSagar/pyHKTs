@@ -5,6 +5,8 @@
 This monorepo is a proof-of-concept implementation and testbed for adding native support for **Higher-Kinded Types (HKTs)** to Python's type system.
 The long-term goal is to evolve this work towards a draft PEP.
 
+See [docs/](docs/) for the design notes and more info.
+
 ## Setup
 
 <details>
