@@ -167,7 +167,7 @@ There are a few problems with this proposal.
 
 ### [returns](https://returns.readthedocs.io/en/latest/pages/hkt.html) library (HKT emulation)
 
-Adds `KindN` and `Container` typing constrcuts along with a mypy plugin.
+Adds `KindN` and `Container` typing constructs along with a mypy plugin.
 
 TODO: Expand more on this approach.
 
