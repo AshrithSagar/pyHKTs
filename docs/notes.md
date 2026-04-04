@@ -119,16 +119,16 @@ flowchart LR
     end
 
     C[Class]
-    D1{Is metaclass <code>\_\_call\_\_</code><br/>same as <code>type.\_\_call\_\_</code>?}
-    D2{Is class <code>\_\_new\_\_</code> same<br/>as <code>object.\_\_new\_\_</code>?}
-    D3{Return type in <code>\_\_new\_\_</code><br/>is subclass of class?}
-    D4{Is class <code>\_\_init\_\_</code> same<br/>as <code>object.\_\_init\_\_</code>?}
-    D5{Is class <code>\_\_init\_\_</code> same<br/>as <code>object.\_\_init\_\_</code>?}
-    Z1[Metaclass <code>\_\_call\_\_</code>]
-    Z2[Class <code>\_\_new\_\_</code>]
-    Z4[Union of class <code>\_\_new\_\_</code> and<br/>class <code>\_\_init\_\_</code> but returning <code>Self</code>]
-    Z5[Class <code>\_\_init\_\_</code> but returning <code>Self</code>]
-    Z6[Fallback to <code>object</code> constructor,<br/>i.e., Union of <code>object.\_\_new\_\_</code> and<br/><code>object.\_\_init\_\_</code> but returning <code>Self</code>]
+    D1{Is metaclass <code>__call__</code><br/>same as <code>type.__call__</code>?}
+    D2{Is class <code>__new__</code> same<br/>as <code>object.__new__</code>?}
+    D3{Return type in <code>__new__</code><br/>is subclass of class?}
+    D4{Is class <code>__init__</code> same<br/>as <code>object.__init__</code>?}
+    D5{Is class <code>__init__</code> same<br/>as <code>object.__init__</code>?}
+    Z1[Metaclass <code>__call__</code>]
+    Z2[Class <code>__new__</code>]
+    Z4[Union of class <code>__new__</code> and<br/>class <code>__init__</code> but returning <code>Self</code>]
+    Z5[Class <code>__init__</code> but returning <code>Self</code>]
+    Z6[Fallback to <code>object</code> constructor,<br/>i.e., Union of <code>object.__new__</code> and<br/><code>object.__init__</code> but returning <code>Self</code>]
 ```
 
 ---
