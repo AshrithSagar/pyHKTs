@@ -36,6 +36,11 @@ The type system currently doesn't have a way to express this behaviour (ignoring
 
 Typechecker's understanding of `type[list[int]]` is that when this type is instantiated, we get an object of type `list[int]`.
 
+Related:
+
+- https://discuss.python.org/t/clarifications-to-the-typing-spec-regarding-type/54596
+- https://discuss.python.org/t/specs-clarification-type-a-b-is-equivalent-the-same-as-type-a-type-b/60912
+
 ---
 
 Currently we have it in [typeshed](https://github.com/python/typeshed/blob/8bf790086aa26c1b2d45185511af7949ee0ef8c8/stdlib/builtins.pyi#L186) as
