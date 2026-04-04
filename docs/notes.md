@@ -67,6 +67,72 @@ class type:
 
 Typecheckers also special case this inference (E.g. `TypeType` in `mypy`).
 
+## [Constructor to Callable](https://typing.python.org/en/latest/spec/constructors.html#converting-a-constructor-to-callable)
+
+_Rough pseudocode:_
+
+```plaintext
+If metaclass overrides type.__call__:
+    If return type of __call__ is not a subclass (or union including a subclass):
+        => Synthesize from __call__ only
+        Ignore __new__ and __init__ here
+If class overrides object.__new__:
+    If return type of __new__ is not a subclass (or union including a subclass):
+        => Synthesize from __new__ only
+        Ignore __init__ here
+    ElseIf class overrides object.__init__:
+        => Synthesize from union of __new__ and __init__ (parameters only while returning Self)
+    Else:
+        => Synthesize from __new__
+ElseIf class overrides object.__init__:
+    => Synthesize from __init__ (parameters only while returning Self)
+Else:
+    => Fallback to object constructor, i.e.,
+    Synthesize from union of object.__new__ and object.__init__ (parameters only while returning Self)
+```
+
+---
+
+_Infer `Callable` from class constructor (roughly):_
+
+FIXME: <small> There is more happening when metaclass `__call__` overrides `type.__call__` but doesn't hamper return type, then there are a few branches missing below.</small>
+
+```mermaid
+flowchart LR
+    C --> D1
+    D1 -->|No| Z1
+    D1 -->|Yes| D2
+    D2 -->|No| D3
+    D2 -->|Yes| D5
+    D3 -->|No| Z2
+    D3 -->|Yes| D4
+    D4 -->|Yes| Z2
+    D4 -->|No| Z4
+    D5 -->|No| Z5
+    D5 -->|Yes| Z6
+    subgraph FINAL[Infer <code>Callable</code> from]
+        Z1
+        Z2
+        Z4
+        Z5
+        Z6
+    end
+
+    C[Class]
+    D1{Is metaclass <code>\_\_call\_\_</code><br/>same as <code>type.\_\_call\_\_</code>?}
+    D2{Is class <code>\_\_new\_\_</code> same<br/>as <code>object.\_\_new\_\_</code>?}
+    D3{Return type in <code>\_\_new\_\_</code><br/>is subclass of class?}
+    D4{Is class <code>\_\_init\_\_</code> same<br/>as <code>object.\_\_init\_\_</code>?}
+    D5{Is class <code>\_\_init\_\_</code> same<br/>as <code>object.\_\_init\_\_</code>?}
+    Z1[Metaclass <code>\_\_call\_\_</code>]
+    Z2[Class <code>\_\_new\_\_</code>]
+    Z4[Union of class <code>\_\_new\_\_</code> and<br/>class <code>\_\_init\_\_</code> but returning <code>Self</code>]
+    Z5[Class <code>\_\_init\_\_</code> but returning <code>Self</code>]
+    Z6[Fallback to <code>object</code> constructor,<br/>i.e., Union of <code>object.\_\_new\_\_</code> and<br/><code>object.\_\_init\_\_</code> but returning <code>Self</code>]
+```
+
+---
+
 ## Existing work (for Python)
 
 ### [nekitdev](https://github.com/nekitdev/peps/blob/main/peps/pep-9999.rst)'s PEP draft
