@@ -49,7 +49,7 @@ F1 = KindVar("F1")
 #### Variation-1
 
 In this variation, the bound type parameters need not be specified.
-The arity should be inferred by the typechecker.
+The arity should be inferred by the type checker.
 
 ```python
 G1 = KindVar("G1", bound=Iterable)
@@ -125,7 +125,7 @@ In the unbounded case, we have to mandatorily use the arity kwarg if wanting to 
 #### TypeVar with bounds and implicit arity (Variation-1)
 
 In this variation, the bound type parameters need not be specified.
-The arity should be inferred by the typechecker.
+The arity should be inferred by the type checker.
 
 ```python
 G1 = TypeVar("G1", bound=Iterable)
@@ -343,6 +343,8 @@ Other PEPs/features/interactions to keep in mind as well, although not a top pri
 
 - Type variance
 
+- How would the runtime type checker scenario look like?
+
 - PEP 718 – Subscriptable functions
 
   This PEP is not yet accepted as of now, but could think if there may be any potential clashes here.
@@ -351,6 +353,6 @@ Other PEPs/features/interactions to keep in mind as well, although not a top pri
 
   Also a WIP PEP. Need to look more on this.
 
-- How would the runtime typechecker scenario look like?
+Some rough thoughts:
 
 - Would this allow better typing in `functools`, say `functools.singledispatch`?

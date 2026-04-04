@@ -78,6 +78,8 @@ There are a few problems with this proposal.
 
 1.  As also pointed out [here](https://github.com/python/typing/issues/548#issuecomment-1347557116), there are some issues as to what to do when subclasses take in more arguments when creating a new instance.
 
+    This is related to a more general problem of dealing with [constructor calls for `type[T]`](https://typing.python.org/en/latest/spec/constructors.html#constructor-calls-for-type-t).
+
 2.  Subscriptable `Self`.
 
     `Self` was added in [PEP 673](https://peps.python.org/pep-0673/) to denote an (implicit) type variable bound to the current class.
@@ -161,7 +163,7 @@ There are a few problems with this proposal.
     There maybe some possible backward compatibility issues here, and we have to look into this more thoroughly.
 
     For Generic classes, an unsubscripted `Self` could continue being treated as a bounded `TypeVar` with all typeargs with `Any`, while a parametrised `Self` should translate to a `KindVar`, and all typeargs should be explicitly specified when using like so.
-    For Non-Generic classes, subscriptable `Self` makes no sense, so a typechecker should reject it.
+    For Non-Generic classes, subscriptable `Self` makes no sense, so a type checker should reject it.
     Hopefully, this above specification shouldn't present any backward compatibility issues.
 
     TODO: Think about subscriptable `Self` in a nested Generic context.
