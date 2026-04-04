@@ -131,97 +131,95 @@ flowchart LR
     Z6[Fallback to <code>object</code> constructor,<br/>i.e., Union of <code>object.__new__</code> and<br/><code>object.__init__</code> but returning <code>Self</code>]
 ```
 
----
+## [PEP 673 – Self Type](https://peps.python.org/pep-0673/)
 
-## Existing work (for Python)
+`Self` was added in [PEP 673](https://peps.python.org/pep-0673/) to denote an (implicit) type variable bound to the current class.
+When used in a [method signature](https://peps.python.org/pep-0673/#use-in-method-signatures) or in [parameters](https://peps.python.org/pep-0673/#use-in-parameter-types), it is an implicit way to denote a type variable referring to an instance of the current class, and when used in a [classmethod signature](https://peps.python.org/pep-0673/#use-in-classmethod-signatures), it acts as an implicit way to annotate `cls: type[Self]`.
+When used in [generic class methods](https://peps.python.org/pep-0673/#use-in-generic-classes), it preserves the type arguments of the object on which the generic method was called on.
+
+```python
+from typing import Any, Self
+
+
+# Uses `typing.Self`:
+class UsesImplicitTypingSelf:
+    # `self` is automatically inferred as `Self`.
+    def identity1(self) -> Self:
+        return self
+
+    # Or we can be explicit with annotating `self`.
+    def identity2(self: Self) -> Self:
+        return self
+
+    # `cls` is automatically inferred as `type[Self]`.
+    @classmethod
+    def new1(cls) -> Self:
+        return cls()
+
+    # Or we can be explicit with annotating `cls`.
+    @classmethod
+    def new2(cls: type[Self]) -> Self:
+        return cls()
+
+
+# This is how `typing.Self` translates to:
+class UsesExplicitSelf:
+    # What this means is that `Self` is actually implicitly bound like this.
+    # Note that we need to be explicit with annotating `self` here.
+    def identity[Self: UsesExplicitSelf](self: Self) -> Self:
+        return self
+
+    # What this means is that `Self` is actually implicitly bound like this.
+    # Note that we need to be explicit with annotating `cls` here.
+    @classmethod
+    def new[Self: UsesExplicitSelf](cls: type[Self]) -> Self:
+        return cls()
+
+
+# This is how `typing.Self` translates to, in Generic classes:
+class UsesExplicitSelfAndIsGeneric[T]:
+    # What this means is that `Self` is actually implicitly bound like this.
+    # The TypeVar bound uses `Any`, and the type arguments of the
+    # specific type of the instance calling this method is preserved.
+    # Note that we need to be explicit with annotating `self` here, again
+    def identity[Self: UsesExplicitSelfAndIsGeneric[Any]](self: Self) -> Self:
+        return self
+
+    # What this means is that `Self` is actually implicitly bound like this.
+    # The TypeVar bound uses `Any`, and the type arguments of the
+    # specific type of the instance calling this method is preserved.
+    # Note that we need to be explicit with annotating `cls` here, again.
+    @classmethod
+    def new[Self: UsesExplicitSelfAndIsGeneric[Any]](cls: type[Self]) -> Self:
+        return cls()
+```
+
+The current `typing.Self` is just a shorthand for convenience to denote such implicit-current-class-bound TypeVars.
+
+(There is also some nuance with the scope of the type variables here.
+With post PEP 695 syntax, we can see the differences:
+
+- In `UsesImplicitTypingSelf` class:
+  `(method) def identity1(self: Self@UsesImplicitTypingSelf) -> Self@UsesImplicitTypingSelf`
+
+- In `UsesExplicitSelf` class:
+  `(method) def identity(self: Self@identity) -> Self@identity`
+  )
+
+## Existing work on HKTs for Python
 
 ### [nekitdev](https://github.com/nekitdev/peps/blob/main/peps/pep-9999.rst)'s PEP draft
 
 This proposal [recognises](https://github.com/python/typing/issues/548#issuecomment-1347406592) the `type(...)` problem.
 
 There are a few problems with this proposal.
-(Note: These problems also exist for our proposal, and we need to address them yet).
+(Note: Some of these problems also exist for our proposal, and we need to address them yet).
 
 1.  As also pointed out [here](https://github.com/python/typing/issues/548#issuecomment-1347557116), there are some issues as to what to do when subclasses take in more arguments when creating a new instance.
 
     This is related to a more general problem of dealing with [constructor calls for `type[T]`](https://typing.python.org/en/latest/spec/constructors.html#constructor-calls-for-type-t).
 
 2.  Subscriptable `Self`.
-
-    `Self` was added in [PEP 673](https://peps.python.org/pep-0673/) to denote an (implicit) type variable bound to the current class.
-    When used in a [method signature](https://peps.python.org/pep-0673/#use-in-method-signatures) or in [parameters](https://peps.python.org/pep-0673/#use-in-parameter-types), it is an implicit way to denote a type variable referring to an instance of the current class, and when used in a [classmethod signature](https://peps.python.org/pep-0673/#use-in-classmethod-signatures), it acts as an implicit way to annotate `cls: type[Self]`.
-    When used in [generic class methods](https://peps.python.org/pep-0673/#use-in-generic-classes), it preserves the type arguments of the object on which the generic method was called on.
-
-    ```python
-    from typing import Any, Self
-
-
-    # Uses `typing.Self`:
-    class UsesImplicitTypingSelf:
-        # `self` is automatically inferred as `Self`.
-        def identity1(self) -> Self:
-            return self
-
-        # Or we can be explicit with annotating `self`.
-        def identity2(self: Self) -> Self:
-            return self
-
-        # `cls` is automatically inferred as `type[Self]`.
-        @classmethod
-        def new1(cls) -> Self:
-            return cls()
-
-        # Or we can be explicit with annotating `cls`.
-        @classmethod
-        def new2(cls: type[Self]) -> Self:
-            return cls()
-
-
-    # This is how `typing.Self` translates to:
-    class UsesExplicitSelf:
-        # What this means is that `Self` is actually implicitly bound like this.
-        # Note that we need to be explicit with annotating `self` here.
-        def identity[Self: UsesExplicitSelf](self: Self) -> Self:
-            return self
-
-        # What this means is that `Self` is actually implicitly bound like this.
-        # Note that we need to be explicit with annotating `cls` here.
-        @classmethod
-        def new[Self: UsesExplicitSelf](cls: type[Self]) -> Self:
-            return cls()
-
-
-    # This is how `typing.Self` translates to, in Generic classes:
-    class UsesExplicitSelfAndIsGeneric[T]:
-        # What this means is that `Self` is actually implicitly bound like this.
-        # The TypeVar bound uses `Any`, and the type arguments of the
-        # specific type of the instance calling this method is preserved.
-        # Note that we need to be explicit with annotating `self` here, again
-        def identity[Self: UsesExplicitSelfAndIsGeneric[Any]](self: Self) -> Self:
-            return self
-
-        # What this means is that `Self` is actually implicitly bound like this.
-        # The TypeVar bound uses `Any`, and the type arguments of the
-        # specific type of the instance calling this method is preserved.
-        # Note that we need to be explicit with annotating `cls` here, again.
-        @classmethod
-        def new[Self: UsesExplicitSelfAndIsGeneric[Any]](cls: type[Self]) -> Self:
-            return cls()
-    ```
-
-    The current `typing.Self` is just a shorthand for convenience to denote such implicit-current-class-bound TypeVars.
-
-    (There is also some nuance with the scope of the type variables here.
-    With post PEP 695 syntax, we can see the differences:
-
-    In `UsesImplicitTypingSelf` class:
-    `(method) def identity1(self: Self@UsesImplicitTypingSelf) -> Self@UsesImplicitTypingSelf`
-
-    In `UsesExplicitSelf` class:
-    `(method) def identity(self: Self@identity) -> Self@identity`
-    )
-
-    ***
 
     The proposal for HKTs in the draft PEP here is incomplete and only talks about the usage syntax, and doesn't specify the implementation of subscriptable `Self`, which is the core problem that we're addressing in the first place since the current type system doesn't understand kinds yet.
 
@@ -242,8 +240,7 @@ TODO: Expand more on this approach.
 
 ## Misc
 
-- It would be nice to introduce a `KindError` similar to `TypeError`.
-
-  TODO: Should decide on the details, later on.
+- Rough ideas:
+  - A `KindError` similar to `TypeError`.
 
 - See [PEP 827](https://peps.python.org/pep-0827/), particularly the `typing.GetArg[T, Base, I]` that is being proposed.
