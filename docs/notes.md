@@ -8,7 +8,7 @@
   This is not done right now while specifying the draft to keep them possibly separate and avoid premature coupling, and to not interfere with the existing `TypeVar` inference for the proof-of-concept, and also since backward compatibility or backport concerns are not exactly a top priority right now (this should be a top priority to be considered later when we have cleared the kind inference issues about how a higher kinded system behaves in a language like Python).
   At a later stage, we would be able to assess clearly whether a new `KindVar` system is actually needed or we can safely make it work with the existing `TypeVar` system with additions.
 
-### `type(...)` type inference
+## `type(...)` type inference
 
 There are some problems with type inference when using `type(...)`.
 
@@ -38,8 +38,10 @@ Typechecker's understanding of `type[list[int]]` is that when this type is insta
 
 Related:
 
+- https://typing.python.org/en/latest/spec/special-types.html#type
 - https://discuss.python.org/t/clarifications-to-the-typing-spec-regarding-type/54596
 - https://discuss.python.org/t/specs-clarification-type-a-b-is-equivalent-the-same-as-type-a-type-b/60912
+- https://discuss.python.org/t/idea-decorator-for-functions-that-should-be-usable-as-types/74199
 
 ---
 
@@ -71,6 +73,10 @@ class type:
 ```
 
 Typecheckers also special case this inference (E.g. `TypeType` in `mypy`).
+
+Related:
+
+- https://discuss.python.org/t/removing-type-checker-internals-from-typeshed/87960
 
 ## [Constructor to Callable](https://typing.python.org/en/latest/spec/constructors.html#converting-a-constructor-to-callable)
 
@@ -138,7 +144,7 @@ flowchart LR
 
 ## [PEP 673 – Self Type](https://peps.python.org/pep-0673/)
 
-`Self` was added in [PEP 673](https://peps.python.org/pep-0673/) to denote an (implicit) type variable bound to the current class.
+[`Self`](https://typing.python.org/en/latest/spec/generics.html#self) was added in [PEP 673](https://peps.python.org/pep-0673/) to denote an (implicit) type variable bound to the current class.
 When used in a [method signature](https://peps.python.org/pep-0673/#use-in-method-signatures) or in [parameters](https://peps.python.org/pep-0673/#use-in-parameter-types), it is an implicit way to denote a type variable referring to an instance of the current class, and when used in a [classmethod signature](https://peps.python.org/pep-0673/#use-in-classmethod-signatures), it acts as an implicit way to annotate `cls: type[Self]`.
 When used in [generic class methods](https://peps.python.org/pep-0673/#use-in-generic-classes), it preserves the type arguments of the object on which the generic method was called on.
 
@@ -249,3 +255,9 @@ TODO: Expand more on this approach.
   - A `KindError` similar to `TypeError`.
 
 - See [PEP 827](https://peps.python.org/pep-0827/), particularly the `typing.GetArg[T, Base, I]` that is being proposed.
+
+- Annotating `self` argument in `__init__`
+
+  https://github.com/python/typing/issues/1563
+
+- https://discuss.python.org/t/generic-type-inference-from-another-generic-type/84354
