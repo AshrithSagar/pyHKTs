@@ -97,7 +97,7 @@ H5 = KindVar("H5", bound=Box_TWithDefault) # Invalid
 H6 = KindVar("H6", bound=Box_TWithDefault[T]) # Fine
 ```
 
-## Reusing existing `TypeVar`
+## Reusing existing `TypeVar`: with an `arity` kwarg
 
 No `KindVar` introduced.
 `TypeVar` should accept an extra kwarg to denote kind.
@@ -337,6 +337,69 @@ class Bar1[T]:
     def meth3_explicit[Self: Bar1[T]](self: Self[A]) -> Self[B]: ...
 ```
 
+## Reusing existing `TypeVar`: allowing generic bounds
+
+We can allow `TypeVar` bounds to be generic.
+
+```python
+F1 = TypeVar("F1", bound=Generic[T])
+# Unbounded, arity=1 kind variable
+
+F2 = TypeVar("F2", bound=Iterable[T])
+# Upper bounded by Iterable, arity=1 kind variable
+
+F3 = TypeVar("F3", bound=Generic[Unpack[Ts]])
+# Unbounded, variadic kind variable
+```
+
+`TypeVar.__getitem__` must be allowed for such cases.
+Type checkers should still catch the cases (i.e., present behaviour) when we try to subscript a `TypeVar` when not defined as above.
+
+This also plays well with PEP 695, and requires no grammar change.
+
+```python
+def fmap[F: Generic[T], A, B](fn: Callable[[A], B], fa: F[A]) -> F[B]: ...
+```
+
+It is unclear what to do with `T`.
+
+There are a few possibilites:
+
+```python
+def fmap[T, F: Generic[T], A, B](fn: Callable[[A], B], fa: F[A]) -> F[B]: ...
+
+def fmap[F: Generic, A, B](fn: Callable[[A], B], fa: F[A]) -> F[B]: ...
+```
+
+Also, in the above cases, it's unclear what the implementation of the function would be, if the bound is just `Generic`.
+We would need more restriction, to something like `Iterable`, say, to make use of it.
+
+One problem with `Iterable` is that we're unaware of what the signature for the constructor call is (`Iterable` only specifies `__iter__`, and we don't know the `__new__` and/or `__init__`).
+So, we need a better protocol, or say, with intersection types have constructor call be specified somehow.
+
+So, if we tried to introduce a `typing` primitive, say `TypeConstructor`, which behaves as
+
+```python
+def fmap[F: TypeConstructor[tuple[Any]], A, B](fn: Callable[[A], B], fa: F[A]) -> F[B]: ...
+```
+
+i.e., `F: TypeConstructor[tuple[Any]]` means `F[A]`, `F[B]`, etc are valid (arity=1).
+
+Similarly, `F: TypeConstructor[tuple[Any, ...]]` means `F[A]`, `F[A, B]`, `F[*Ts]`, etc are valid (variadic arity).
+
+The corresponding `TypeVar` bounds can be specified in this way also, say `F: TypeConstructor[tuple[int, str]]`, which means when applied, `F[A, B]` is only valid when `TypeVar` `A` is bounded by `int`, and `TypeVar` `B` is bounded by `str`, and so on.
+
+Maybe for brevity, we can also consider to remove the `tuple[]` and directly use `TypeConstructor[]` (it's behaviour would be similar to `Generic[*Ts]`).
+
+A better name for `TypeConstructor` would prolly be `AritySpec`, short for arity specification, similar to `ParamSpec` (parameter specification).
+This should not be subclassable similar to the TypeVarLikes, and type checkers can implement its behaviour.
+
+One problem that arises is how/where do we use bounds here.
+`AritySpec` is currently like a variadic `TypeVar` but special cased by type checkers.
+
+A bigger problem that still remains is unsound LSP (Liskov Substitution Principle) when subclassing for constructors.
+Should also explore the possibility that intersection types may be required before HKTs.
+
 ## Misc
 
 Other PEPs/features/interactions to keep in mind as well, although not a top priority, as of now:
@@ -356,3 +419,8 @@ Other PEPs/features/interactions to keep in mind as well, although not a top pri
 Some rough thoughts:
 
 - Would this allow better typing in `functools`, say `functools.singledispatch`?
+
+Possible ways to extend the type system to go towards HKTs:
+
+- Generic `TypeVar` bounds
+- Generic metaclasses
