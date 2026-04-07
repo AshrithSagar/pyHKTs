@@ -41,6 +41,7 @@ Related:
 - https://typing.python.org/en/latest/spec/special-types.html#type
 - https://discuss.python.org/t/clarifications-to-the-typing-spec-regarding-type/54596
 - https://discuss.python.org/t/specs-clarification-type-a-b-is-equivalent-the-same-as-type-a-type-b/60912
+- https://discuss.python.org/t/enforcing-init-signature-when-implementing-it-as-an-abstractmethod/75690
 - https://discuss.python.org/t/idea-decorator-for-functions-that-should-be-usable-as-types/74199
 
 ---
@@ -261,3 +262,5 @@ TODO: Expand more on this approach.
   https://github.com/python/typing/issues/1563
 
 - https://discuss.python.org/t/generic-type-inference-from-another-generic-type/84354
+
+- https://discuss.python.org/t/typemap-generalizing-overload-semantics/105440
