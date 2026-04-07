@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Higher Kinded Types for Python3"
 readme = "README.md"
 authors = [{ name = "Ashrith Sagar", email = "ashrith9sagar@gmail.com" }]
-requires-python = ">=3.10"
+requires-python = "==3.14.*"
 dependencies = ["typing-extensions"]
 
 [project.scripts]
