@@ -8,8 +8,8 @@ A = TypeVar("A")
 B = TypeVar("B")
 C = TypeVar("C")
 
-F = KindVar("F")
-M = KindVar("M")
+F = KindVar("F", arity=1)
+M = KindVar("M", arity=1)
 
 
 # ── Functor ────────────────────────────────────────────────────────────────────

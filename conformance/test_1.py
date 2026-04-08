@@ -4,7 +4,7 @@ from collections.abc import Iterable
 from typing import Callable, KindVar, TypeVar, reveal_type
 
 T = TypeVar("T")
-F = KindVar("F", bound=Iterable[T])
+F = KindVar("F", bound=Iterable[T], arity=1)
 A = TypeVar("A")
 B = TypeVar("B")
 

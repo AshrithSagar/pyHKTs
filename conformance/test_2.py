@@ -7,7 +7,7 @@ T = TypeVar("T")
 A = TypeVar("A")
 B = TypeVar("B")
 
-F = KindVar("F")
+F = KindVar("F", arity=1)
 
 
 class Functor(Generic[F], ABC):
