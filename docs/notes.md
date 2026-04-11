@@ -1,5 +1,7 @@
 # Notes
 
+## HKTs for Python
+
 - Python currently doesn't have an abstraction to represent type constructors or rather the type of type constructors (a.k.a. kind).
 - The goal here currently is to enable the type system to infer and recognise kinds.
 - We should introduce a system to define a type variable / kind variable to denote something that varies over a type constructor.
@@ -72,8 +74,6 @@ class type:
         **kwds: Any,
     ) -> _typeshed.Self: ...
 ```
-
-Typecheckers also special case this inference (E.g. `TypeType` in `mypy`).
 
 Related:
 
