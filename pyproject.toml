@@ -11,19 +11,19 @@ dependencies = ["typing-extensions"]
 pyright-local = "pyhkts._cli:pyright"
 
 [build-system]
-requires = ["uv_build>=0.11.3,<0.12.0"]
+requires = ["uv_build>=0.11.6,<0.12.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
-test = ["pytest>=9.0.2", "pytest-memray>=1.8.0"]
-lint = ["ruff>=0.15.9"]
+test = ["pytest>=9.0.3", "pytest-memray>=1.8.0"]
+lint = ["ruff>=0.15.10"]
 typecheck = [
     "basedpyright",
     "mypy[mypyc]",
-    "pyrefly>=0.59.1",
+    "pyrefly>=0.60.2",
     "pyright>=1.1.408",
-    "ty>=0.0.28",
-    "zuban>=0.6.2",
+    "ty>=0.0.29",
+    "zuban>=0.7.0",
 ]
 
 [tool.mypy]
