@@ -1,21 +1,28 @@
 [submodule "cpython"]
 	path = cpython
 	url = https://github.com/AshrithSagar/cpython
+	branch = pyhkts
 [submodule "typing_extensions"]
 	path = typing_extensions
 	url = https://github.com/AshrithSagar/typing_extensions
+	branch = pyhkts
 [submodule "typeshed"]
 	path = typeshed
 	url = https://github.com/AshrithSagar/typeshed
+	branch = pyhkts
 [submodule "mypy"]
 	path = mypy
 	url = https://github.com/AshrithSagar/mypy
+	branch = pyhkts
 [submodule "pyright"]
 	path = pyright
 	url = https://github.com/AshrithSagar/pyright
+	branch = pyhkts
 [submodule "basedpyright"]
 	path = basedpyright
 	url = https://github.com/AshrithSagar/basedpyright
+	branch = pyhkts
 [submodule "peps"]
 	path = peps
 	url = https://github.com/AshrithSagar/peps
+	branch = pyhkts
