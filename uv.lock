@@ -958,6 +958,9 @@ dependencies = [
 ]
 
 [package.dev-dependencies]
+dev = [
+    { name = "rich" },
+]
 lint = [
     { name = "ruff" },
 ]
@@ -978,6 +981,7 @@ typecheck = [
 requires-dist = [{ name = "typing-extensions", editable = "typing_extensions" }]
 
 [package.metadata.requires-dev]
+dev = [{ name = "rich", specifier = ">=15.0.0" }]
 lint = [{ name = "ruff", specifier = ">=0.15.10" }]
 test = [
     { name = "pytest", specifier = ">=9.0.3" },
