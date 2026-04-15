@@ -11,17 +11,16 @@ Ideally, some of these should reside in typing.py
 # pyright: reportGeneralTypeIssues = false
 
 import builtins
-import re
 import typing
 from types import GenericAlias
-from typing import Any, Generic, TypeAliasType, TypeVar, TypeVarTuple
+from typing import Any, TypeAliasType, TypeVarTuple
 
 from typing_extensions import TypeForm
 
 _GenericAlias = typing._GenericAlias  # type: ignore[attr-defined]  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType, reportUnknownVariableType]
 
 
-def is_generic(tp: TypeForm[Any]) -> bool:
+def is_generic(tp: TypeForm[Any] | GenericAlias | TypeAliasType) -> bool:
     if isinstance(tp, (GenericAlias, _GenericAlias, TypeAliasType)):
         if len(getattr(tp, "__parameters__")) > 0:
             return True
@@ -29,7 +28,7 @@ def is_generic(tp: TypeForm[Any]) -> bool:
     return hasattr(tp, "__class_getitem__")
 
 
-def get_arity(tp: TypeForm[Any]) -> int:
+def get_arity(tp: TypeForm[Any] | GenericAlias | TypeAliasType) -> int:
     """
     arity -> Number of free type parameters, i.e., remaining/residual kind arity, and not total/construction arity.
     arity=-1 => Variadic
@@ -86,26 +85,37 @@ def get_arity(tp: TypeForm[Any]) -> int:
 
 
 def main() -> None:
+    import re
+    from typing import Generic, TypeVar
+
+    from rich.console import Console
+    from rich.table import Table
+    from rich.text import Text
+
+    console = Console()
+    table = Table()
+    table.add_column("Type", style="bold cyan")
+    table.add_column("Generic?", justify="center")
+    table.add_column("Arity", justify="center")
+
+    def _typ_to_str(tp: TypeForm[Any] | GenericAlias | TypeAliasType) -> str:
+        str_tp: str
+        if isinstance(tp, type):
+            str_tp = tp.__name__  # No need of "<class '...'>"
+        else:
+            str_tp = str(tp)  # Fallback
+        str_tp = str_tp.replace("typing.", "")  # No need of "typing."...
+        str_tp = str_tp.replace(f"{__name__}.", "")  # No need of module name
+        str_tp = str_tp.split(".")[-1]  # No need of paths
+        str_tp = re.sub(r"Unpack\[(.*?)\]", r"*\1", str_tp)  # Unpack[...] -> *...
+        return str_tp
+
+    ##
+
     T = TypeVar("T")
     A = TypeVar("A")
     B = TypeVar("B")
     Ts = TypeVarTuple("Ts")
-
-    def _print_helper(tp: Any) -> None:
-        def typ_to_str(tp: TypeForm[Any]) -> str:
-            str_tp: str
-            if isinstance(tp, type):
-                str_tp = tp.__name__  # No need of "<class '...'>"
-            else:
-                str_tp = str(tp)  # Fallback
-            str_tp = str_tp.replace("typing.", "")  # No need of "typing."...
-            str_tp = str_tp.replace(f"{__name__}.", "")  # No need of module name
-            str_tp = re.sub(r"Unpack\[(.*?)\]", r"*\1", str_tp)  # Unpack[...] -> *...
-            return str_tp
-
-        print(f"{typ_to_str(tp)}:")
-        print(f" -> is_generic = {is_generic(tp)}")
-        print(f" -> arity = {get_arity(tp)}")
 
     class B0: ...
 
@@ -113,7 +123,7 @@ def main() -> None:
 
     type B2[*Ts] = tuple[int, *Ts, str]
 
-    for typ in [
+    for typ in list[TypeForm[Any] | GenericAlias | TypeAliasType]([
         int,
         #
         list,
@@ -145,8 +155,13 @@ def main() -> None:
         B2[int],
         B2[*Ts],
         B2[int, *Ts],
-    ]:
-        _print_helper(typ)
+    ]):
+        table.add_row(
+            Text(_typ_to_str(typ)),
+            str(is_generic(typ)),
+            str(get_arity(typ)),
+        )
+    console.print(table)
 
 
 if __name__ == "__main__":
