@@ -165,34 +165,46 @@ def main() -> None:
 
     for typ in list[TypeForm[Any] | GenericAlias | TypeAliasType]([
         int,
-        #
+        ##
         list,
+        #
         list[T],
         list[int],
         list[Any],
         #
+        list[list[T]],
+        list[list[int]],
+        list[list[Any]],
+        ##
         dict,
+        #
         dict[A, B],
         dict[int, T],
         dict[int, str],
-        #
+        ##
         tuple,
+        #
         tuple[T],
         tuple[int],
+        #
         tuple[A, B],
         tuple[int, T],
         tuple[int, str],
+        #
         tuple[*Ts],
         tuple[int, *Ts],
-        #
+        ##
         B0,
-        #
+        ##
         B1,
+        #
         B1[T],
         B1[int],
-        #
+        ##
         B2,
+        #
         B2[int],
+        #
         B2[*Ts],
         B2[int, *Ts],
     ]):
