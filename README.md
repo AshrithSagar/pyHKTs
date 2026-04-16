@@ -2,8 +2,7 @@
 
 (Experimental) Higher Kinded Types for Python3
 
-This monorepo is a proof-of-concept implementation and testbed for adding native support for **Higher-Kinded Types (HKTs)** to Python's type system.
-The long-term goal is to evolve this work towards a draft PEP.
+The aim of this monorepo is to draft a PEP towards **Higher-Kinded Types (HKTs)** in Python's type system, along with a prototype implementation.
 
 See [docs/](docs/) for the design notes and more info.
 
