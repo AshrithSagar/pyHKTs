@@ -20,6 +20,10 @@ This is just a rough working copy of design notes, before moving on to draft a p
 
   Details about the changes made in the forks for the reference implementation.
 
+### Surveys
+
+- [scala.md](scala.md)
+
 ## TODOs
 
 1. Conduct a survey on how other languages have approached HKTs, and if/why they have made a decision as such.
