@@ -226,8 +226,7 @@ class Bag1[T, F[_]]: ...
 ```python
 # Or prefer the already existing Ellipsis.
 # A bit confusing, but doesn't require much grammar changes.
-# Not sure how this would come into play in types such as tuple[T, ...] that use Ellipsis.
-# Would there be any conflicts? Should give this some more thought.
+# Since Ellipsis would be the first argument in such a definition for kind variables, it prolly shouldn't be a problem to differentiate it with types such as tuple[T, ...].
 class Bag1[F[...]]: ...
 class Bag1[T, F[...]]: ...
 ```
@@ -400,6 +399,22 @@ One problem that arises is how/where do we use bounds here.
 A bigger problem that still remains is unsound LSP (Liskov Substitution Principle) when subclassing for constructors.
 Should also explore the possibility that intersection types may be required before HKTs.
 
+## Specifying `KindVar`'s with underscore syntax (similar to Scala)
+
+Consider
+
+```python
+def fmap[F: Generic[_], A, B](fn: Callable[[A], B], fa: F[A]) -> F[B]: ...
+```
+
+OR
+
+```python
+def fmap[F[_], A, B](fn: Callable[[A], B], fa: F[A]) -> F[B]: ...
+```
+
+In the above cases, `A` and `B` denote a `TypeVar`, while `F` denotes a `KindVar`.
+
 ## Misc
 
 Other PEPs/features/interactions to keep in mind as well, although not a top priority, as of now:
@@ -424,3 +439,4 @@ Possible ways to extend the type system to go towards HKTs:
 
 - Generic `TypeVar` bounds
 - Generic metaclasses
+- Protocols with `__class_getitem__`
