@@ -223,13 +223,23 @@ class Bag1[F[_]]: ...
 class Bag1[T, F[_]]: ...
 ```
 
+TODO:
+Redo the below section, clearly.
+
 ```python
 # Or prefer the already existing Ellipsis.
 # A bit confusing, but doesn't require much grammar changes.
-# Since Ellipsis would be the first argument in such a definition for kind variables, it prolly shouldn't be a problem to differentiate it with types such as tuple[T, ...].
+# Not sure how this would come into play in types such as tuple[T, ...] that use Ellipsis.
+# Would there be any conflicts? Should give this some more thought.
+# Since Ellipsis would be the first argument in such a definition for kind variables (eg: tuple[...]), it prolly shouldn't be a problem to differentiate it with types such as tuple[T, ...].
 class Bag1[F[...]]: ...
 class Bag1[T, F[...]]: ...
 ```
+
+There is some ambiguity when using Ellipsis as such.
+`tuple[int, ...]` currently means a variadic tuple, but with the above specification, it becomes ambiguous whether we're referring to the variadic tuple with `tuple[int, ...]` or a tuple with exactly length 2 and generic in the second param (provided we allow partial specialisation).
+So we have two options here: Allow Ellipsis and reject partial specialisation, OR allow partial specialisation and reject Ellipsis and introduce underscores.
+Basically, the current Ellipsis specification and partial specialisation would be conflicting.
 
 #### Bounded case
 
