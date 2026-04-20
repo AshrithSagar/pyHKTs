@@ -250,6 +250,18 @@ Adds `KindN` and `Container` typing constructs along with a mypy plugin.
 
 TODO: Expand more on this approach.
 
+## Other languages
+
+### Haskell
+
+### Scala
+
+See [scala.md](scala.md)
+
+### Roc
+
+- https://github.com/roc-lang/roc/blob/4e51efcba5a9e97063a67a855d5dbb6adaeba116/www/content/faq.md#why-doesnt-roc-have-higher-kinded-polymorphism-or-arbitrary-rank-types
+
 ## Misc
 
 - Rough ideas:
