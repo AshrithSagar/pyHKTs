@@ -425,6 +425,12 @@ def fmap[F[_], A, B](fn: Callable[[A], B], fa: F[A]) -> F[B]: ...
 
 In the above cases, `A` and `B` denote a `TypeVar`, while `F` denotes a `KindVar`.
 
+There may be some problems with the first case using `Generic[_]` since `Generic` is not valid as a proper type; [PEP 484](https://peps.python.org/pep-0484/#arbitrary-generic-types-as-base-classes) mentions that `Generic` is only valid as a base class.
+We can maybe try to lift this restriction, but it may open a whole different beast of issues: increased implementation complexity and/or backward compatibility issues.
+A related idea on this note is to consider making `object` generic, maybe.
+This can simplify the mental (and maybe even implementation) model and be more pure, but may not be pragmatic.
+This may be even more unfeasible than above, since it goes against Python's philosophy of optional typing to some extent.
+
 ## Misc
 
 Other PEPs/features/interactions to keep in mind as well, although not a top priority, as of now:
