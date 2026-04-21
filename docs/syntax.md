@@ -241,6 +241,10 @@ There is some ambiguity when using Ellipsis as such.
 So we have two options here: Allow Ellipsis and reject partial specialisation, OR allow partial specialisation and reject Ellipsis and introduce underscores.
 Basically, the current Ellipsis specification and partial specialisation would be conflicting.
 
+Related:
+
+- https://github.com/python/typing/issues/912#issuecomment-1892841634
+
 #### Bounded case
 
 In the bounded cases, only inference needs to be updated.
