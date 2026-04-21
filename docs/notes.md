@@ -242,7 +242,11 @@ There are a few problems with this proposal.
     For Non-Generic classes, subscriptable `Self` makes no sense, so a type checker should reject it.
     Hopefully, this above specification shouldn't present any backward compatibility issues.
 
-    TODO: Think about subscriptable `Self` in a nested Generic context.
+    TODO:
+    Think about subscriptable `Self` in a nested Generic context.
+
+    Related:
+    - https://github.com/python/typing/discussions/1555#discussioncomment-7981513
 
 ### [returns](https://returns.readthedocs.io/en/latest/pages/hkt.html) library (HKT emulation)
 
