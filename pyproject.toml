@@ -22,7 +22,7 @@ typecheck = [
   # From PyPI
   "pycroscope>=0.3.0",
   "pyrefly>=0.62.0",
-  "pyright>=1.1.408",  # PyPI version of pyright
+  "pyright>=1.1.409",  # PyPI version of pyright
   "ty>=0.0.32",
   "zuban>=0.7.0",
 ]
