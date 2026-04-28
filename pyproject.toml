@@ -21,10 +21,10 @@ typecheck = [
 
   # From PyPI
   "pycroscope>=0.3.0",
-  "pyrefly>=0.62.0",
+  "pyrefly>=0.63.0",
   "pyright>=1.1.409",  # PyPI version of pyright
   "ty>=0.0.32",
-  "zuban>=0.7.0",
+  "zuban>=0.7.1",
 ]
 
 [build-system]
