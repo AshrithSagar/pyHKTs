@@ -21,14 +21,14 @@ typecheck = [
 
   # From PyPI
   "pycroscope>=0.4.0",
-  "pyrefly>=0.63.1",
+  "pyrefly>=0.64.0",
   "pyright>=1.1.409",  # PyPI version of pyright
   "ty>=0.0.34",
   "zuban>=0.7.2",
 ]
 
 [build-system]
-requires = ["uv_build>=0.11.8,<0.12.0"]
+requires = ["uv_build>=0.11.11,<0.12.0"]
 build-backend = "uv_build"
 
 ## Type checker configs
